@@ -1,18 +1,19 @@
 package uk.ac.reading.student.zj018597.whatstheplan.ui;
 
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,13 +63,14 @@ public class PlayFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initFragment(savedInstanceState);
 
-        PlanViewModel mPlanViewModel = ViewModelProviders.of(
+        PlanViewModel mPlanViewModel = new ViewModelProvider(
                 this).get(PlanViewModel.class);
-        mPlanViewModel.getAllPlans().observe(this, this::setListPlans);
+        mPlanViewModel.getAllPlans().observe(getViewLifecycleOwner(), this::setListPlans);
 
-        RestaurantViewModel mRestaurantViewModel = ViewModelProviders.of(
+        RestaurantViewModel mRestaurantViewModel = new ViewModelProvider(
                 this).get(RestaurantViewModel.class);
-        mRestaurantViewModel.getAllRestaurants().observe(this, this::setListRestaurants);
+        mRestaurantViewModel.getAllRestaurants().observe(
+                getViewLifecycleOwner(), this::setListRestaurants);
     }
 
     /*--------------------------------------------------------------------------------------------*/

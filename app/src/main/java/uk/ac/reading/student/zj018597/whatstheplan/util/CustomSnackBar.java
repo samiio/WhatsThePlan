@@ -2,8 +2,8 @@ package uk.ac.reading.student.zj018597.whatstheplan.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,7 +18,7 @@ public class CustomSnackBar {
         );
         // Set text and background
         View view = snackbar.getView();
-        TextView textView = view.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = view.findViewById(com.google.android.material.R.id.snackbar_text);
         view.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorPrimaryDark));
         textView.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryLight));
 
