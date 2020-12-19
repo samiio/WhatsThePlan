@@ -1,0 +1,44 @@
+package uk.ac.reading.student.zj018597.whatstheplan.util;
+
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
+
+public class Animations {
+
+    /**
+     * Sets the {@link FloatingActionButton} animation when an item is deleted.
+     * @param floatingActionButton is pulled down after the {@link Snackbar} is gone.
+     */
+    public static void setFabAnimLift(FloatingActionButton floatingActionButton) {
+
+        final int TIMEOUT_FAB = 3000;
+
+        final TranslateAnimation animLift = new TranslateAnimation(
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, -100
+        );
+
+        animLift.setDuration(100);
+
+        final TranslateAnimation animPause = new TranslateAnimation(
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0
+        );
+
+        animPause.setDuration(TIMEOUT_FAB);
+
+        final AnimationSet animSet = new AnimationSet(true);
+        animSet.addAnimation(animLift);
+        animSet.addAnimation(animPause);
+
+        floatingActionButton.startAnimation(animSet);
+    }
+
+}
