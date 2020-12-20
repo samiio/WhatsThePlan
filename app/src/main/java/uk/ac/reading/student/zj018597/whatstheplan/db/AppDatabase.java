@@ -15,7 +15,7 @@ import androidx.annotation.NonNull;
  * This class is implemented as Singleton to prevent having multiple instances of the database
  * opened at the same time
  */
-@Database(entities = {PlanEntity.class, RestaurantEntity.class}, version = 3,
+@Database(entities = {PlanEntity.class, RestaurantEntity.class}, version = 4,
 exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -31,79 +31,12 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             AppDatabase.class, DB_NAME)
-                            .addCallback(sAppDatabaseCallback)
                             .fallbackToDestructiveMigration()
                             .build();
                 }
             }
         }
         return INSTANCE;
-    }
-
-    /**
-     * Callback to populate the database with some data on a background thread by
-     * calling {@link PopulatePlansTableTask}
-     */
-    private static AppDatabase.Callback sAppDatabaseCallback = new AppDatabase.Callback() {
-
-        @Override
-        public void onOpen(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
-            new PopulatePlansTableTask(INSTANCE).execute();
-            new PopulateRestaurantsTableTask(INSTANCE).execute();
-        }
-    };
-
-    /**
-     * Populates the {@link PlanEntity} table with three records if it is empty.
-     */
-    private static class PopulatePlansTableTask extends AsyncTask<Void, Void, Void> {
-
-        private final PlanDao mDao;
-
-        PopulatePlansTableTask(AppDatabase db) {
-            mDao = db.planDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (mDao.countRecords() < 4) {
-                mDao.deleteAll();
-                PlanEntity plan = new PlanEntity("FIFA");
-                mDao.insert(plan);
-                plan = new PlanEntity("Cards");
-                mDao.insert(plan);
-                plan = new PlanEntity("Shatti AlQurum");
-                mDao.insert(plan);
-            }
-            return null;
-        }
-    }
-
-    /**
-     * Populates the {@link RestaurantEntity} table with three records if it is empty.
-     */
-    private static class PopulateRestaurantsTableTask extends AsyncTask<Void, Void, Void> {
-
-        private final RestaurantDao mDao;
-
-        PopulateRestaurantsTableTask(AppDatabase db) {
-            mDao = db.restaurantDao();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (mDao.countRecords() < 4) {
-                mDao.deleteAll();
-                RestaurantEntity restaurant = new RestaurantEntity("KFC");
-                mDao.insert(restaurant);
-                restaurant = new RestaurantEntity("Fairoz");
-                mDao.insert(restaurant);
-                restaurant = new RestaurantEntity("Baba Salem");
-                mDao.insert(restaurant);
-            }
-            return null;
-        }
     }
 
 }
