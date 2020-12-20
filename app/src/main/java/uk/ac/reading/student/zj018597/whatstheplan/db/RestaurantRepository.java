@@ -1,8 +1,8 @@
 package uk.ac.reading.student.zj018597.whatstheplan.db;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
-import android.os.AsyncTask;
 
 import java.util.List;
 
@@ -31,60 +31,14 @@ public class RestaurantRepository {
      * Insert a {@link PlanEntity} into the database
      */
     public void insert(RestaurantEntity restaurant) {
-        new InsertTask(mRestaurantDao).execute(restaurant);
+        AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.insert(restaurant));
     }
 
     /**
      * Delete a {@link PlanEntity} from the table
      */
     public void delete(RestaurantEntity restaurant) {
-        new DeleteTask(mRestaurantDao).execute(restaurant);
+        AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.delete(restaurant));
     }
 
-    /**
-     * Returns the number of records from the {@link PlanEntity} table
-     */
-    public int getCount() {
-        return mRestaurantDao.countRecords();
-    }
-
-    /*--------------------------------------------------------------------------------------------*/
-    /*--------------------------------------- AsyncTasks -----------------------------------------*/
-    /*--------------------------------------------------------------------------------------------*/
-
-    /**
-     * {@link AsyncTask} to insert {@link RestaurantEntity} on background thread.
-     */
-    private static class InsertTask extends AsyncTask<RestaurantEntity, Void, Void> {
-
-        private RestaurantDao mTaskDao;
-
-        InsertTask(RestaurantDao dao) {
-            mTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final RestaurantEntity... restaurants) {
-            mTaskDao.insert(restaurants[0]);
-            return null;
-        }
-    }
-
-    /**
-     * {@link AsyncTask} to delete {@link RestaurantEntity} on background thread.
-     */
-    private static class DeleteTask extends AsyncTask<RestaurantEntity, Void, Void> {
-
-        private RestaurantDao mTaskDao;
-
-        DeleteTask(RestaurantDao dao) {
-            mTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(RestaurantEntity... restaurants) {
-            mTaskDao.delete(restaurants[0]);
-            return null;
-        }
-    }
 }

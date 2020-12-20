@@ -9,6 +9,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import androidx.annotation.NonNull;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 /**
  * {@link RoomDatabase} acts as a layer on top of {@link SQLiteDatabase}
  * Room simplifies the implementation and the query execution of the database
@@ -21,6 +24,9 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "app-database.db";
     private static volatile AppDatabase INSTANCE;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public abstract PlanDao planDao();
     public abstract RestaurantDao restaurantDao();

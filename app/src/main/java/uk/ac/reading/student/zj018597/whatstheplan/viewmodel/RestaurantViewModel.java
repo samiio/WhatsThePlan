@@ -37,8 +37,4 @@ public class RestaurantViewModel extends AndroidViewModel {
         mRepository.delete(restaurant);
     }
 
-    public int getCount() {
-        return mRepository.getCount();
-    }
-
 }

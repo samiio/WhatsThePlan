@@ -41,9 +41,6 @@ public class PlayFragment extends Fragment {
     private List<PlanEntity> planList;
     private List<RestaurantEntity> restaurantList;
 
-    private PlanViewModel mPlanViewModel;
-    private RestaurantViewModel mRestaurantViewModel;
-
     /*--------------------------------------------------------------------------------------------*/
     /*---------------------------------------- Lifecycle -----------------------------------------*/
     /*--------------------------------------------------------------------------------------------*/
@@ -56,10 +53,12 @@ public class PlayFragment extends Fragment {
         tvPlan = v.findViewById(R.id.tv_plan);
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
+        clickableButton(btnPlan, planList);
 
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
         btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
+        clickableButton(btnRestaurant, restaurantList);
         return v;
     }
 
@@ -68,10 +67,12 @@ public class PlayFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initFragment(savedInstanceState);
 
-        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
+        PlanViewModel mPlanViewModel = new ViewModelProvider(
+                this).get(PlanViewModel.class);
         mPlanViewModel.getAllPlans().observe(getViewLifecycleOwner(), this::setListPlans);
 
-        mRestaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        RestaurantViewModel mRestaurantViewModel = new ViewModelProvider(
+                this).get(RestaurantViewModel.class);
         mRestaurantViewModel.getAllRestaurants().observe(
                 getViewLifecycleOwner(), this::setListRestaurants);
     }
@@ -108,7 +109,6 @@ public class PlayFragment extends Fragment {
 
             } else { //Create new instance
                 playFragment = PlayFragment.newInstance();
-
             }
         }
     }
@@ -168,8 +168,13 @@ public class PlayFragment extends Fragment {
         return aList.get(index).getName();
     }
 
-    private void clickableButton(Button button, int recordCount) {
-        button.setEnabled(recordCount != 0);
+    // TODO: FIX BUTTON CLICK ISSUE
+    private void clickableButton(Button button, List<? extends AnEntity> anEntityList) {
+        if (anEntityList != null) {
+            if (anEntityList.size() != 0) {
+                button.setEnabled(true);
+            }
+        }
     }
 
 }

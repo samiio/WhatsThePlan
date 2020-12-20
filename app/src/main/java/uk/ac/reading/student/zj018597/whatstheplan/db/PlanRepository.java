@@ -1,8 +1,8 @@
 package uk.ac.reading.student.zj018597.whatstheplan.db;
 
 import android.app.Application;
+
 import androidx.lifecycle.LiveData;
-import android.os.AsyncTask;
 
 import java.util.List;
 
@@ -36,54 +36,14 @@ public class PlanRepository {
      * Insert a {@link PlanEntity} into the database
      */
     public void insert(PlanEntity plan) {
-        new InsertTask(mPlanDao).execute(plan);
+        AppDatabase.databaseWriteExecutor.execute(() -> mPlanDao.insert(plan));
     }
 
     /**
      * Delete a {@link PlanEntity} from the table
      */
     public void delete(PlanEntity plan) {
-        new DeleteTask(mPlanDao).execute(plan);
-    }
-
-    /*--------------------------------------------------------------------------------------------*/
-    /*--------------------------------------- AsyncTasks -----------------------------------------*/
-    /*--------------------------------------------------------------------------------------------*/
-
-    /**
-     * {@link AsyncTask} to insert {@link PlanEntity} on background thread.
-     */
-    private static class InsertTask extends AsyncTask<PlanEntity, Void, Void> {
-
-        private PlanDao mTaskDao;
-
-        InsertTask(PlanDao dao) {
-            mTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final PlanEntity... plans) {
-            mTaskDao.insert(plans[0]);
-            return null;
-        }
-    }
-
-    /**
-     * {@link AsyncTask} to delete {@link PlanEntity} on background thread.
-     */
-    private static class DeleteTask extends AsyncTask<PlanEntity, Void, Void> {
-
-        private PlanDao mTaskDao;
-
-        DeleteTask(PlanDao dao) {
-            mTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(PlanEntity... plans) {
-            mTaskDao.delete(plans[0]);
-            return null;
-        }
+        AppDatabase.databaseWriteExecutor.execute(() -> mPlanDao.delete(plan));
     }
 
 }

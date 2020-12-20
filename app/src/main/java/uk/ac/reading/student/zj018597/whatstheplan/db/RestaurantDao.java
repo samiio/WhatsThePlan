@@ -18,12 +18,6 @@ import java.util.List;
 public interface RestaurantDao {
 
     /**
-     * Count the number of restaurants.
-     */
-    @Query("SELECT COUNT(*) FROM restaurants")
-    int countRecords();
-
-    /**
      * Insert new restaurant.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -41,9 +35,4 @@ public interface RestaurantDao {
     @Delete
     void delete(RestaurantEntity plan);
 
-    /**
-     * Delete all restaurants in list.
-     */
-    @Query("DELETE FROM restaurants")
-    void deleteAll();
 }
