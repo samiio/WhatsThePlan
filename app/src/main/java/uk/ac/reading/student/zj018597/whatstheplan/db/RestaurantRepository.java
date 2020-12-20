@@ -41,6 +41,13 @@ public class RestaurantRepository {
         new DeleteTask(mRestaurantDao).execute(restaurant);
     }
 
+    /**
+     * Returns the number of records from the {@link PlanEntity} table
+     */
+    public int getCount() {
+        return mRestaurantDao.countRecords();
+    }
+
     /*--------------------------------------------------------------------------------------------*/
     /*--------------------------------------- AsyncTasks -----------------------------------------*/
     /*--------------------------------------------------------------------------------------------*/

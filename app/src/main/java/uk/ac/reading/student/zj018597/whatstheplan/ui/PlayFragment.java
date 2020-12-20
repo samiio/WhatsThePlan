@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -40,6 +41,9 @@ public class PlayFragment extends Fragment {
     private List<PlanEntity> planList;
     private List<RestaurantEntity> restaurantList;
 
+    private PlanViewModel mPlanViewModel;
+    private RestaurantViewModel mRestaurantViewModel;
+
     /*--------------------------------------------------------------------------------------------*/
     /*---------------------------------------- Lifecycle -----------------------------------------*/
     /*--------------------------------------------------------------------------------------------*/
@@ -64,12 +68,10 @@ public class PlayFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initFragment(savedInstanceState);
 
-        PlanViewModel mPlanViewModel = new ViewModelProvider(
-                this).get(PlanViewModel.class);
+        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
         mPlanViewModel.getAllPlans().observe(getViewLifecycleOwner(), this::setListPlans);
 
-        RestaurantViewModel mRestaurantViewModel = new ViewModelProvider(
-                this).get(RestaurantViewModel.class);
+        mRestaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
         mRestaurantViewModel.getAllRestaurants().observe(
                 getViewLifecycleOwner(), this::setListRestaurants);
     }
@@ -164,6 +166,10 @@ public class PlayFragment extends Fragment {
         List<AnEntity> aList = new ArrayList<>(anEntityList);
         int index = random.nextInt(aList.size());
         return aList.get(index).getName();
+    }
+
+    private void clickableButton(Button button, int recordCount) {
+        button.setEnabled(recordCount != 0);
     }
 
 }
