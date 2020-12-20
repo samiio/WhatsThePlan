@@ -13,8 +13,6 @@
         android:id="@+id/fl_fragment_plans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="677dp"
-        app:layout_constraintBottom_toTopOf="@+id/fab_add_plan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
