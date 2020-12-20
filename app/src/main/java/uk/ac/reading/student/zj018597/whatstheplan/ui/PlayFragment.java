@@ -22,6 +22,7 @@ import java.util.Random;
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.db.PlanEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantEntity;
+import uk.ac.reading.student.zj018597.whatstheplan.model.AnEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.RestaurantViewModel;
 
@@ -131,24 +132,13 @@ public class PlayFragment extends Fragment {
      */
     private class ButtonClickedPlan implements View.OnClickListener {
 
+        /**
+         * Displays random item to the user.
+         */
         @Override
         public void onClick(View view) {
-            buttonClickPlan();
+            tvPlan.setText(getRandomItem(planList));
         }
-
-        /**
-         * Randomly selects a Item from {@link #planList} and displays it to the user.
-         * Called when {@link #btnPlan} is clicked.
-         */
-        private void buttonClickPlan() {
-            Random random = new Random();
-            List<PlanEntity> list = new ArrayList<>(planList);
-
-            int index = random.nextInt(list.size());
-            String planName = list.get(index).getName();
-            tvPlan.setText(planName);
-        }
-
     }
 
     /**
@@ -156,24 +146,24 @@ public class PlayFragment extends Fragment {
      */
     private class ButtonClickedRestaurant implements View.OnClickListener {
 
+        /**
+         * Displays random item to the user.
+         */
         @Override
         public void onClick(View view) {
-            buttonClickRestaurant();
+            tvRestaurant.setText(getRandomItem(restaurantList));
         }
+    }
 
-        /**
-         * Randomly selects a Item from {@link #restaurantList} and displays it to the user.
-         * Called when {@link #btnRestaurant} is clicked.
-         */
-        private void buttonClickRestaurant() {
-            Random random = new Random();
-            List<RestaurantEntity> list = new ArrayList<>(restaurantList);
-
-            int index = random.nextInt(list.size());
-            String restaurantName = list.get(index).getName();
-            tvRestaurant.setText(restaurantName);
-        }
-
+    /**
+     * Called when {@link Button} is clicked.
+     * @param anEntityList list of objects which extend {@link AnEntity}.
+     */
+    private String getRandomItem(List<? extends AnEntity> anEntityList) {
+        Random random = new Random();
+        List<AnEntity> aList = new ArrayList<>(anEntityList);
+        int index = random.nextInt(aList.size());
+        return aList.get(index).getName();
     }
 
 }
