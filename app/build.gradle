@@ -38,7 +38,8 @@ dependencies {
 
     // Lifecycle components
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
+    implementation "androidx.lifecycle:lifecycle-common-java8:2.2.0"
+    //annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.2.0'
 
     // Androidx
     implementation 'androidx.annotation:annotation:1.1.0'

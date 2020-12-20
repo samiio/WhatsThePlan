@@ -15,7 +15,8 @@ import androidx.annotation.NonNull;
  * This class is implemented as Singleton to prevent having multiple instances of the database
  * opened at the same time
  */
-@Database(entities = {PlanEntity.class, RestaurantEntity.class}, version = 2)
+@Database(entities = {PlanEntity.class, RestaurantEntity.class}, version = 3,
+exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String DB_NAME = "app-database.db";
