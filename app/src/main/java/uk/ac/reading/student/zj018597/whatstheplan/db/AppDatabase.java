@@ -1,13 +1,11 @@
 package uk.ac.reading.student.zj018597.whatstheplan.db;
 
-import androidx.sqlite.db.SupportSQLiteDatabase;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.AsyncTask;
-import androidx.annotation.NonNull;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

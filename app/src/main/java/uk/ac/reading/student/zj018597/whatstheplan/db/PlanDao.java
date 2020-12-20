@@ -18,12 +18,6 @@ import java.util.List;
 public interface PlanDao {
 
     /**
-     * Count the number of plans.
-     */
-    @Query("SELECT COUNT(*) FROM plans")
-    int countRecords();
-
-    /**
      * Insert new plan.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -40,11 +34,5 @@ public interface PlanDao {
      */
     @Delete
     void delete(PlanEntity plan);
-
-    /**
-     * Delete all plans in list.
-     */
-    @Query("DELETE FROM plans")
-    void deleteAll();
 
 }

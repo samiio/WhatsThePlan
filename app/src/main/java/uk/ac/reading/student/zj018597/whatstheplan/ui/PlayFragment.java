@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class PlayFragment extends Fragment {
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
         clickableButton(btnPlan, planList);
-
+        // TODO: FIX LAYOUT CONSTRAINTS
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
         btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
@@ -170,6 +169,7 @@ public class PlayFragment extends Fragment {
 
     // TODO: FIX BUTTON CLICK ISSUE
     private void clickableButton(Button button, List<? extends AnEntity> anEntityList) {
+        button.setEnabled(false);
         if (anEntityList != null) {
             if (anEntityList.size() != 0) {
                 button.setEnabled(true);
