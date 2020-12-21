@@ -53,14 +53,16 @@ public class PlayFragment extends Fragment {
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
 
-        Bundle playBundle = getArguments();
-        int planListSize = playBundle.getInt(MainActivity.PLANS_LIST_SIZE);
-        clickableButtonNew(btnPlan, planListSize);
         // TODO: FIX LAYOUT CONSTRAINTS
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
         btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
-        clickableButton(btnRestaurant, restaurantList);
+
+        Bundle bundle = getArguments();
+        int planListSize = bundle.getInt(MainActivity.PLANS_LIST_SIZE);
+        int restaurantListSize = bundle.getInt(MainActivity.RESTAURANT_LIST_SIZE);
+        btnPlan.setEnabled(planListSize != 0);
+        btnRestaurant.setEnabled(restaurantListSize != 0);
         return v;
     }
 
@@ -168,20 +170,6 @@ public class PlayFragment extends Fragment {
         List<AnEntity> aList = new ArrayList<>(anEntityList);
         int index = random.nextInt(aList.size());
         return aList.get(index).getName();
-    }
-
-    // TODO: FIX BUTTON CLICK ISSUE
-    private void clickableButton(Button button, List<? extends AnEntity> anEntityList) {
-        button.setEnabled(false);
-        if (anEntityList != null) {
-            if (anEntityList.size() != 0) {
-                button.setEnabled(true);
-            }
-        }
-    }
-
-    private void clickableButtonNew(Button button, int recordCount) {
-        button.setEnabled(recordCount != 0);
     }
 
 }

@@ -21,6 +21,13 @@ public class RestaurantRepository {
     }
 
     /**
+     * Get row count.
+     */
+    public LiveData<Integer> getCount() {
+        return mRestaurantDao.getRecordCount();
+    }
+
+    /**
      * Get all the {@link RestaurantEntity} from the database
      */
     public LiveData<List<RestaurantEntity>> getAllRestaurants() {

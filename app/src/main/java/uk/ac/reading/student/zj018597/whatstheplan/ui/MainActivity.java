@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.view.Menu;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.util.BottomNavigationViewHelper;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
+import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.RestaurantViewModel;
 
 import static uk.ac.reading.student.zj018597.whatstheplan.util.Calculators.convertDpToPx;
 
@@ -41,8 +44,10 @@ public class MainActivity extends AppCompatActivity implements
     private TextView tvToolbarTitle;
 
     private PlanViewModel mPlanViewModel;
-    private int planListSize;
+    private RestaurantViewModel mRestaurantViewModel;
+    private int planCount, restaurantCount;
     public final static String PLANS_LIST_SIZE = "PLANS_LIST_SIZE";
+    public final static String RESTAURANT_LIST_SIZE = "RESTAURANT_LIST_SIZE";
 
     /*--------------------------------------------------------------------------------------------*/
     /*---------------------------------------- Lifecycle -----------------------------------------*/
@@ -64,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements
 
         setInitialToolbar();
 
-        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
-        mPlanViewModel.getCount().observe(this, integer -> planListSize = integer);
+        initialiseViewModels();
     }
 
     @Override
@@ -91,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements
 
             case R.id.navigation_play:
                 Bundle bundle = new Bundle();
-                bundle.putInt(PLANS_LIST_SIZE, planListSize);
+                bundle.putInt(PLANS_LIST_SIZE, planCount);
+                bundle.putInt(RESTAURANT_LIST_SIZE, restaurantCount);
                 fragment = playFragment;
                 fragment.setArguments(bundle);
                 tag = PLAY_TAG;
@@ -197,6 +202,16 @@ public class MainActivity extends AppCompatActivity implements
      */
     private float toolbarElevation() {
         return convertDpToPx(getApplicationContext(), 4);
+    }
+
+    /**
+     * Attach {@link Observer} to set {@link #planCount} and {@link #restaurantCount}.
+     */
+    private void initialiseViewModels() {
+        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
+        mPlanViewModel.getCount().observe(this, integer -> planCount = integer);
+        mRestaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        mRestaurantViewModel.getCount().observe(this, integer -> restaurantCount = integer);
     }
 
 }

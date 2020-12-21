@@ -18,6 +18,12 @@ import java.util.List;
 public interface RestaurantDao {
 
     /**
+     * Return count of rows.
+     */
+    @Query("SELECT COUNT(*) FROM restaurants")
+    LiveData<Integer> getRecordCount();
+
+    /**
      * Insert new restaurant.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -25,6 +25,9 @@ public class PlanRepository {
         mAllPlans = mPlanDao.getAllPlans();
     }
 
+    /**
+     * Get row count.
+     */
     public LiveData<Integer> getCount() {
         return mPlanDao.getRecordCount();
     }

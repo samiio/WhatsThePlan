@@ -17,6 +17,9 @@ import java.util.List;
 @Dao
 public interface PlanDao {
 
+    /**
+     * Return count of rows.
+     */
     @Query("SELECT COUNT(*) FROM plans")
     LiveData<Integer> getRecordCount();
 

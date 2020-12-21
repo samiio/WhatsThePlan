@@ -25,6 +25,10 @@ public class RestaurantViewModel extends AndroidViewModel {
         mAllRestaurants = mRepository.getAllRestaurants();
     }
 
+    public LiveData<Integer> getCount() {
+        return mRepository.getCount();
+    }
+
     public LiveData<List<RestaurantEntity>> getAllRestaurants() {
         return mAllRestaurants;
     }
