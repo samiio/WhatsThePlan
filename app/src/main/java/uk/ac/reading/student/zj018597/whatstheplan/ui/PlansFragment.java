@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,17 +116,11 @@ public class PlansFragment extends Fragment {
      */
     private void initFragment(Bundle savedInstanceState) {
         FragmentManager manager = getChildFragmentManager();
-
         if (savedInstanceState != null) {
             plansFragment = manager.getFragment(savedInstanceState, TAG);
-
         } else {
-            if (plansFragment != null) { //Do nothing
-                Log.i(TAG, ": fragment exists, do nothing");
-
-            } else { //Create new instance
+            if (plansFragment == null) {
                 plansFragment = PlansFragment.newInstance();
-
             }
         }
     }
@@ -200,10 +193,11 @@ public class PlansFragment extends Fragment {
 
             @Override
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
-
-                try {
-                    // temp plan
+                if (planList.size() == 0) {
+                    mPlanViewModel.empty();
+                    adapter.notifyItemRemoved(0);
+                } else {
+                    int position = viewHolder.getAdapterPosition();
                     tempPlan = planList.get(position);
                     tempPosition = position;
                     mPlanViewModel.delete(planList.get(position));
@@ -211,12 +205,7 @@ public class PlansFragment extends Fragment {
                     //ensure View is consistent with underlying data
                     planList.remove(position);
                     adapter.notifyItemRemoved(position);
-                } catch (Exception e) {
-                    planList.clear();
-                    mPlanViewModel.empty();
-                    adapter.notifyItemRemoved(0);
                 }
-
                 displaySnackBar();
                 setFabAnimLift(fabAdd);
             }
