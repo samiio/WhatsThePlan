@@ -41,4 +41,10 @@ public interface PlanDao {
     @Delete
     void delete(PlanEntity plan);
 
+    /**
+     * Delete all items.
+     */
+    @Query("DELETE FROM plans")
+    void deleteAll();
+
 }

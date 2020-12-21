@@ -41,4 +41,7 @@ public class PlanViewModel extends AndroidViewModel {
         mRepository.delete(plan);
     }
 
+    public void empty() {
+        mRepository.deleteAll();
+    }
 }

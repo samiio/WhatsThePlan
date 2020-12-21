@@ -202,14 +202,20 @@ public class PlansFragment extends Fragment {
             public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 int position = viewHolder.getAdapterPosition();
 
-                // temp plan
-                tempPlan = planList.get(position);
-                tempPosition = position;
-                mPlanViewModel.delete(planList.get(position));
+                try {
+                    // temp plan
+                    tempPlan = planList.get(position);
+                    tempPosition = position;
+                    mPlanViewModel.delete(planList.get(position));
 
-                //ensure View is consistent with underlying data
-                planList.remove(position);
-                adapter.notifyItemRemoved(position);
+                    //ensure View is consistent with underlying data
+                    planList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                } catch (Exception e) {
+                    planList.clear();
+                    mPlanViewModel.empty();
+                    adapter.notifyItemRemoved(0);
+                }
 
                 displaySnackBar();
                 setFabAnimLift(fabAdd);

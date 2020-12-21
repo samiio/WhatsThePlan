@@ -53,4 +53,11 @@ public class PlanRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> mPlanDao.delete(plan));
     }
 
+    /**
+     * Delete all {@link PlanEntity} from the table
+     */
+    public void deleteAll() {
+        AppDatabase.databaseWriteExecutor.execute(() -> mPlanDao.deleteAll());
+    }
+
 }
