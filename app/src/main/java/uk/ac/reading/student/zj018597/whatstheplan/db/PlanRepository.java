@@ -25,6 +25,10 @@ public class PlanRepository {
         mAllPlans = mPlanDao.getAllPlans();
     }
 
+    public LiveData<Integer> getCount() {
+        return mPlanDao.getRecordCount();
+    }
+
     /**
      * Get all the {@link PlanEntity} from the database
      */

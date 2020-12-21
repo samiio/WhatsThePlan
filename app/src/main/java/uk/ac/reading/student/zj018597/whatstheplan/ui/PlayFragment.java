@@ -52,7 +52,10 @@ public class PlayFragment extends Fragment {
         tvPlan = v.findViewById(R.id.tv_plan);
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
-        clickableButton(btnPlan, planList);
+
+        Bundle playBundle = getArguments();
+        int planListSize = playBundle.getInt(MainActivity.PLANS_LIST_SIZE);
+        clickableButtonNew(btnPlan, planListSize);
         // TODO: FIX LAYOUT CONSTRAINTS
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
@@ -175,6 +178,10 @@ public class PlayFragment extends Fragment {
                 button.setEnabled(true);
             }
         }
+    }
+
+    private void clickableButtonNew(Button button, int recordCount) {
+        button.setEnabled(recordCount != 0);
     }
 
 }

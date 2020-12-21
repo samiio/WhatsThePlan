@@ -8,12 +8,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.util.BottomNavigationViewHelper;
+import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
 
 import static uk.ac.reading.student.zj018597.whatstheplan.util.Calculators.convertDpToPx;
 
@@ -37,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements
     private Toolbar toolbar;
     private TextView tvToolbarTitle;
 
+    private PlanViewModel mPlanViewModel;
+    private int planListSize;
+    public final static String PLANS_LIST_SIZE = "PLANS_LIST_SIZE";
+
     /*--------------------------------------------------------------------------------------------*/
     /*---------------------------------------- Lifecycle -----------------------------------------*/
     /*--------------------------------------------------------------------------------------------*/
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements
 
         setInitialToolbar();
 
+        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
+        mPlanViewModel.getCount().observe(this, integer -> planListSize = integer);
     }
 
     @Override
@@ -81,7 +90,10 @@ public class MainActivity extends AppCompatActivity implements
                 break;
 
             case R.id.navigation_play:
+                Bundle bundle = new Bundle();
+                bundle.putInt(PLANS_LIST_SIZE, planListSize);
                 fragment = playFragment;
+                fragment.setArguments(bundle);
                 tag = PLAY_TAG;
                 tvToolbarTitle.setText(getResources().getString(R.string.title_play));
                 toolbar.setElevation(toolbarElevation());

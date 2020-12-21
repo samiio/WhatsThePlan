@@ -25,6 +25,10 @@ public class PlanViewModel extends AndroidViewModel {
         mAllPlans = mRepository.getAllPlans();
     }
 
+    public LiveData<Integer> getCount() {
+        return mRepository.getCount();
+    }
+
     public LiveData<List<PlanEntity>> getAllPlans() {
         return mAllPlans;
     }
