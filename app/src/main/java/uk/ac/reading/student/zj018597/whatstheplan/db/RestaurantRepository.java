@@ -48,4 +48,11 @@ public class RestaurantRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.delete(restaurant));
     }
 
+    /**
+     * Delete all {@link PlanEntity} from the table
+     */
+    public void deleteAll() {
+        AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.deleteAll());
+    }
+
 }

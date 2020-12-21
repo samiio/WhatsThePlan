@@ -41,4 +41,10 @@ public interface RestaurantDao {
     @Delete
     void delete(RestaurantEntity plan);
 
+    /**
+     * Delete all items.
+     */
+    @Query("DELETE FROM restaurants")
+    void deleteAll();
+
 }

@@ -195,26 +195,29 @@ public class RestaurantsFragment extends Fragment {
 
             //not used, as the first parameter above is 0
             @Override
-            public boolean onMove(RecyclerView recyclerView1, RecyclerView.ViewHolder viewHolder,
-                                  RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView1,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                int position = viewHolder.getAdapterPosition();
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                if (restaurantList.size() == 0) {
+                    mRestaurantViewModel.empty();
+                    adapter.notifyItemRemoved(0);
+                } else {
+                    int position = viewHolder.getAdapterPosition();
+                    tempRestaurant = restaurantList.get(position);
+                    tempPosition = position;
+                    mRestaurantViewModel.delete(restaurantList.get(position));
 
-                // temp restaurant
-                tempRestaurant = restaurantList.get(position);
-                tempPosition = position;
-                mRestaurantViewModel.delete(restaurantList.get(position));
-
-                //ensure View is consistent with underlying data
-                restaurantList.remove(position);
-                adapter.notifyItemRemoved(position);
-
-                displaySnackBar();
-                setFabAnimLift(fabAdd);
+                    //ensure View is consistent with underlying data
+                    restaurantList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    displaySnackBar();
+                    setFabAnimLift(fabAdd);
+                }
             }
         };
     }

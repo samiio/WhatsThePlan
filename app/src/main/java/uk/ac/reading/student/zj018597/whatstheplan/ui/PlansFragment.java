@@ -186,13 +186,14 @@ public class PlansFragment extends Fragment {
 
             //not used, as the first parameter above is 0
             @Override
-            public boolean onMove(RecyclerView recyclerView1, RecyclerView.ViewHolder viewHolder,
-                                  RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView1,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
             @Override
-            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 if (planList.size() == 0) {
                     mPlanViewModel.empty();
                     adapter.notifyItemRemoved(0);
@@ -205,9 +206,9 @@ public class PlansFragment extends Fragment {
                     //ensure View is consistent with underlying data
                     planList.remove(position);
                     adapter.notifyItemRemoved(position);
+                    displaySnackBar();
+                    setFabAnimLift(fabAdd);
                 }
-                displaySnackBar();
-                setFabAnimLift(fabAdd);
             }
         };
     }

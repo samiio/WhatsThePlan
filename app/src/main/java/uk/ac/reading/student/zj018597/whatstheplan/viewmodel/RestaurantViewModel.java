@@ -41,4 +41,8 @@ public class RestaurantViewModel extends AndroidViewModel {
         mRepository.delete(restaurant);
     }
 
+    public void empty() {
+        mRepository.deleteAll();
+    }
+
 }
