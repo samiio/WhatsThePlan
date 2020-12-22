@@ -41,4 +41,20 @@ public class Animations {
         floatingActionButton.startAnimation(animSet);
     }
 
+    /**
+     * Sets the {@link FloatingActionButton} the initial animation when an item is deleted.
+     * @param floatingActionButton is is moved up when to make space for the {@link Snackbar}.
+     */
+    public static void setFabAnimPull(FloatingActionButton floatingActionButton) {
+
+        final TranslateAnimation animPull = new TranslateAnimation(
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 0,
+                Animation.ABSOLUTE, 1
+        );
+        animPull.setDuration(500);
+        floatingActionButton.setAnimation(animPull);
+    }
+
 }

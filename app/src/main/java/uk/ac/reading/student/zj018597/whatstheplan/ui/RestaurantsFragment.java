@@ -36,6 +36,7 @@ import uk.ac.reading.student.zj018597.whatstheplan.util.RestaurantListAdapter;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.RestaurantViewModel;
 
 import static uk.ac.reading.student.zj018597.whatstheplan.util.Animations.setFabAnimLift;
+import static uk.ac.reading.student.zj018597.whatstheplan.util.Animations.setFabAnimPull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -239,7 +240,7 @@ public class RestaurantsFragment extends Fragment {
                 adapter.notifyItemInserted(tempPosition);
                 adapter.notifyDataSetChanged();
                 mRestaurantViewModel.insert(tempRestaurant);
-                // setFabAnimPull(fabAddExercise);
+                setFabAnimPull(fabAdd);
             } else {
                 Toast.makeText(context, getText(R.string.restaurant_deleted), Toast.LENGTH_SHORT)
                         .show();

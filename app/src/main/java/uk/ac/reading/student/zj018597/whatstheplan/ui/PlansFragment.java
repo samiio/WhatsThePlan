@@ -39,6 +39,7 @@ import uk.ac.reading.student.zj018597.whatstheplan.util.PlanListAdapter;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
 
 import static uk.ac.reading.student.zj018597.whatstheplan.util.Animations.setFabAnimLift;
+import static uk.ac.reading.student.zj018597.whatstheplan.util.Animations.setFabAnimPull;
 
 /**
  * {@link Fragment} which displays the list of {@link PlanEntity}.
@@ -239,7 +240,7 @@ public class PlansFragment extends Fragment {
                 adapter.notifyItemInserted(tempPosition);
                 adapter.notifyDataSetChanged();
                 mPlanViewModel.insert(tempPlan);
-                // setFabAnimPull(fabAddExercise);
+                setFabAnimPull(fabAdd);
             } else {
                 Toast.makeText(context, getText(R.string.plan_deleted), Toast.LENGTH_SHORT).show();
             }
