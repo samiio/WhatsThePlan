@@ -207,7 +207,7 @@ public class RestaurantsFragment extends Fragment {
                     mRestaurantViewModel.empty();
                     adapter.notifyItemRemoved(0);
                 } else {
-                    int position = viewHolder.getAdapterPosition();
+                    int position = viewHolder.getAdapterPosition() - 1;
                     tempRestaurant = restaurantList.get(position);
                     tempPosition = position;
                     mRestaurantViewModel.delete(restaurantList.get(position));
@@ -229,7 +229,7 @@ public class RestaurantsFragment extends Fragment {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
         Snackbar snackbar = CustomSnackBar.setSnackBar(
-                activity, context, R.id.root_fragment_restaurants, getString(R.string.undo)
+                activity, context, R.id.cl_root_fragment_restaurants, getString(R.string.undo)
         );
         // Set SnackBar action:
         // if undo is confirmed, restore exercise, update recyclerView and database

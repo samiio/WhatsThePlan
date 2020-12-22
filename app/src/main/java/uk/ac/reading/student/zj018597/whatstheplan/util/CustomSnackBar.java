@@ -3,6 +3,8 @@ package uk.ac.reading.student.zj018597.whatstheplan.util;
 import android.app.Activity;
 import android.content.Context;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,8 @@ import uk.ac.reading.student.zj018597.whatstheplan.R;
 
 public class CustomSnackBar {
 
-    public static Snackbar setSnackBar(Activity activity, Context context, int viewId, String message) {
+    public static Snackbar setSnackBar(Activity activity, Context context, int viewId,
+                                       String message) {
         final Snackbar snackbar = Snackbar.make(
                 activity.findViewById(viewId), message, Snackbar.LENGTH_LONG
         );
@@ -23,7 +26,8 @@ public class CustomSnackBar {
         textView.setTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryLight));
 
         // Set params
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+                snackbar.getView().getLayoutParams();
         params.setMargins(
                 params.leftMargin, params.topMargin, params.rightMargin,
                 Math.round(Calculators.convertDpToPx(context, 56))

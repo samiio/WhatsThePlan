@@ -4,13 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +33,7 @@ import java.util.Objects;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.db.PlanEntity;
+import uk.ac.reading.student.zj018597.whatstheplan.util.Calculators;
 import uk.ac.reading.student.zj018597.whatstheplan.util.CustomSnackBar;
 import uk.ac.reading.student.zj018597.whatstheplan.util.PlanListAdapter;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
@@ -85,6 +90,9 @@ public class PlansFragment extends Fragment {
                 adapter.setPlans(plans);
             }
         });
+        if (planList != null) {
+            Log.i(TAG, "onActivityCreated: list size - " + planList.size());
+        }
     }
 
     @Override
@@ -198,7 +206,7 @@ public class PlansFragment extends Fragment {
                     mPlanViewModel.empty();
                     adapter.notifyItemRemoved(0);
                 } else {
-                    int position = viewHolder.getAdapterPosition();
+                    int position = viewHolder.getAdapterPosition() - 1;
                     tempPlan = planList.get(position);
                     tempPosition = position;
                     mPlanViewModel.delete(planList.get(position));
@@ -220,8 +228,9 @@ public class PlansFragment extends Fragment {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
         Snackbar snackbar = CustomSnackBar.setSnackBar(
-                activity, context, R.id.root_fragment_plans, getString(R.string.undo)
+                activity, context, R.id.cl_root_fragment_plans, getString(R.string.undo)
         );
+
         // Set SnackBar action:
         // if undo is confirmed, restore exercise, update recyclerView and database
         snackbar.setAction(R.string.undo, view -> {

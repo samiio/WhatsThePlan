@@ -54,8 +54,6 @@ public class PlayFragment extends Fragment {
         tvPlan = v.findViewById(R.id.tv_plan);
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
-
-        // TODO: fix SnackBar, clean code
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
         btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
