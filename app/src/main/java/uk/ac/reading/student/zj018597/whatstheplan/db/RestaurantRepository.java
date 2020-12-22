@@ -6,13 +6,16 @@ import androidx.lifecycle.LiveData;
 
 import java.util.List;
 
+/**
+ * Manages queries to {@link PlanEntity}.
+ */
 public class RestaurantRepository {
 
-    private RestaurantDao mRestaurantDao;
-    private LiveData<List<RestaurantEntity>> mAllRestaurants;
+    private final RestaurantDao mRestaurantDao;
+    private final LiveData<List<RestaurantEntity>> mAllRestaurants;
 
     /**
-     * Constructor that gets a handle to the database and initializes the member variables
+     * Gets a handle to the database and initialises member variables.
      */
     public RestaurantRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
@@ -20,39 +23,24 @@ public class RestaurantRepository {
         mAllRestaurants = mRestaurantDao.getAllRestaurants();
     }
 
-    /**
-     * Get row count.
-     */
     public LiveData<Integer> getCount() {
         return mRestaurantDao.getRecordCount();
     }
 
-    /**
-     * Get all the {@link RestaurantEntity} from the database
-     */
     public LiveData<List<RestaurantEntity>> getAllRestaurants() {
         return mAllRestaurants;
     }
 
-    /**
-     * Insert a {@link PlanEntity} into the database
-     */
     public void insert(RestaurantEntity restaurant) {
         AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.insert(restaurant));
     }
 
-    /**
-     * Delete a {@link PlanEntity} from the table
-     */
     public void delete(RestaurantEntity restaurant) {
         AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.delete(restaurant));
     }
 
-    /**
-     * Delete all {@link PlanEntity} from the table
-     */
     public void deleteAll() {
-        AppDatabase.databaseWriteExecutor.execute(() -> mRestaurantDao.deleteAll());
+        AppDatabase.databaseWriteExecutor.execute(mRestaurantDao::deleteAll);
     }
 
 }

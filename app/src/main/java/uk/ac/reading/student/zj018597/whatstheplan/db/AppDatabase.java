@@ -11,10 +11,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * {@link RoomDatabase} acts as a layer on top of {@link SQLiteDatabase}
- * Room simplifies the implementation and the query execution of the database
- * This class is implemented as Singleton to prevent having multiple instances of the database
- * opened at the same time
+ * {@link RoomDatabase} implemented as singleton to prevent having multiple instances of
+ * the database opened at the same time.
  */
 @Database(entities = {PlanEntity.class, RestaurantEntity.class}, version = 4,
 exportSchema = false)

@@ -11,39 +11,23 @@ import androidx.room.Room;
 import java.util.List;
 
 /**
- * DAO class for implementing the {@link PlanEntity} in the {@link Room} database
- * The DAO class is used to specify the SQL queries used to interact with the database
+ * DAO interface to query the {@link PlanEntity} table.
  */
 @Dao
 public interface PlanDao {
 
-    /**
-     * Return count of rows.
-     */
     @Query("SELECT COUNT(*) FROM plans")
     LiveData<Integer> getRecordCount();
 
-    /**
-     * Insert new plan.
-     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(PlanEntity plan);
 
-    /**
-     * Return list of plans.
-     */
     @Query("SELECT * FROM plans ORDER BY name ASC")
     LiveData<List<PlanEntity>> getAllPlans();
 
-    /**
-     * Delete given plan item.
-     */
     @Delete
     void delete(PlanEntity plan);
 
-    /**
-     * Delete all items.
-     */
     @Query("DELETE FROM plans")
     void deleteAll();
 
