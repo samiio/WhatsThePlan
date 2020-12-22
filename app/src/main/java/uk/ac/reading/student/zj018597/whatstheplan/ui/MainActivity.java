@@ -1,20 +1,20 @@
 package uk.ac.reading.student.zj018597.whatstheplan.ui;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.util.BottomNavigationViewHelper;
@@ -36,15 +36,9 @@ public class MainActivity extends AppCompatActivity implements
     private final static String PLAY_TAG = "PLAY_FRAGMENT";
     private final static String RESTAURANTS_TAG = "RESTAURANTS_FRAGMENT";
 
-    // Bottom navigation view for the menu
-    private BottomNavigationView bottomNavigationView;
-
-    //Toolbar and its title
     private Toolbar toolbar;
     private TextView tvToolbarTitle;
 
-    private PlanViewModel mPlanViewModel;
-    private RestaurantViewModel mRestaurantViewModel;
     private int planCount, restaurantCount;
     public final static String PLANS_LIST_SIZE = "PLANS_LIST_SIZE";
     public final static String RESTAURANT_LIST_SIZE = "RESTAURANT_LIST_SIZE";
@@ -57,57 +51,37 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Initialising the fragments
         initialiseFragments();
-
-        //Setting the first fragment
-        setInitialFragment(savedInstanceState);
-
-        //Setting the BottomNavigationView
+        setFragment(plansFragment, PLANS_TAG);
         setBottomNavigationView();
-
         setInitialToolbar();
-
         initialiseViewModels();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Fragment fragment;
+        String tag;
 
-        Fragment fragment = null;
-        String tag = "";
-
-        switch (item.getItemId()) {
-            case R.id.navigation_plans:
-                fragment = plansFragment;
-                tag = PLANS_TAG;
-                tvToolbarTitle.setText(getResources().getString(R.string.title_plans));
-                toolbar.setElevation(toolbarElevation());
-                break;
-
-            case R.id.navigation_restaurants:
-                fragment = restaurantsFragment;
-                tag = RESTAURANTS_TAG;
-                tvToolbarTitle.setText(getResources().getString(R.string.title_restaurants));
-                toolbar.setElevation(toolbarElevation());
-                break;
-
-            case R.id.navigation_play:
-                Bundle bundle = new Bundle();
-                bundle.putInt(PLANS_LIST_SIZE, planCount);
-                bundle.putInt(RESTAURANT_LIST_SIZE, restaurantCount);
-                fragment = playFragment;
-                fragment.setArguments(bundle);
-                tag = PLAY_TAG;
-                tvToolbarTitle.setText(getResources().getString(R.string.title_play));
-                toolbar.setElevation(toolbarElevation());
-                break;
-
-            default:
-                break;
+        if (item.getItemId() == R.id.navigation_plans) {
+            fragment = plansFragment;
+            tag = PLANS_TAG;
+            tvToolbarTitle.setText(getResources().getString(R.string.title_plans));
+        } else if (item.getItemId() == R.id.navigation_restaurants) {
+            fragment = restaurantsFragment;
+            tag = RESTAURANTS_TAG;
+            tvToolbarTitle.setText(getResources().getString(R.string.title_restaurants));
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putInt(PLANS_LIST_SIZE, planCount);
+            bundle.putInt(RESTAURANT_LIST_SIZE, restaurantCount);
+            fragment = playFragment;
+            fragment.setArguments(bundle);
+            tag = PLAY_TAG;
+            tvToolbarTitle.setText(getResources().getString(R.string.title_play));
         }
-        return setTheFragment(fragment, tag);
+        toolbar.setElevation(toolbarElevation());
+        return setFragment(fragment, tag);
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -115,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements
     /*--------------------------------------------------------------------------------------------*/
 
     /**
-     * Initialise the fragments which will be accessed from the {@link #bottomNavigationView}.
+     * Fragments that will be displayed on this activity.
      */
     private void initialiseFragments() {
         plansFragment = new PlansFragment();
@@ -124,81 +98,44 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Sets up the initial fragment that will be launched when the main activity is launched
+     * Sets a fragments on this Activity's FrameLayout.
      */
-    private void setInitialFragment(Bundle savedInstanceState) {
-
-        FragmentManager manager = getSupportFragmentManager();
-        if (savedInstanceState == null) {
-            plansFragment = PlansFragment.newInstance();
-            replaceFragment(manager, plansFragment, R.id.fl_main, PLANS_TAG);
-        } else {
-            plansFragment = manager.getFragment(savedInstanceState, PLANS_TAG);
-        }
-    }
-
-    /**
-     * Called to replace a {@link Fragment}.
-     */
-    public static void replaceFragment(FragmentManager manager, Fragment fragment,
-                                       int frameId, String tag) {
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(frameId, fragment, tag);
-        transaction.commit();
-    }
-
-    /**
-     * Sets the fragments from {@link #initialiseFragments()} to the frameLayout.
-     * https://stackoverflow.com/questions/18305945/how-to-resume-fragment-from-backstack-if-exists
-     */
-    private boolean setTheFragment(Fragment fragment, String tag) {
+    private boolean setFragment(Fragment fragment, String tag) {
         FragmentManager manager = getSupportFragmentManager();
         manager.findFragmentByTag(tag);
         FragmentTransaction ft = manager.beginTransaction();
-
-        // No fragment in backStack with same tag..
-        if (manager.findFragmentByTag(tag) == null) {
-            ft.replace(R.id.fl_main, fragment, tag)
-                    .commit();
-            return true;
-
+        if (fragment != null) {
+            ft.replace(R.id.fl_main, fragment, tag).commit();
         }
-        else {
-            ft.show(manager.findFragmentByTag(tag))
-                    .commit();
-            return false;
-        }
+        return true;
     }
 
     /**
-     * Sets up the {@link BottomNavigationView}
+     * Format the {@link BottomNavigationView}.
      */
     private void setBottomNavigationView() {
-        bottomNavigationView = findViewById(R.id.navigation_menu);
-
-        // Formatting the bnv
-        BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
-        Menu menu = bottomNavigationView.getMenu();
+        BottomNavigationView bnv = findViewById(R.id.navigation_menu);
+        BottomNavigationViewHelper.disableShiftMode(bnv);
+        Menu menu = bnv.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-        bottomNavigationView.setElevation(toolbarElevation());
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bnv.setElevation(toolbarElevation());
+        bnv.setOnNavigationItemSelectedListener(this);
     }
 
     /**
-     * Sets up the {@link #toolbar} title
+     * Format the {@link Toolbar}.
      */
     private void setInitialToolbar() {
         toolbar = findViewById(R.id.tbr_main_activity);
         tvToolbarTitle = toolbar.findViewById(R.id.tbr_main_title);
-
         toolbar.setTitle("");
         tvToolbarTitle.setText(getResources().getString(R.string.title_plans));
         setSupportActionBar(toolbar);
     }
 
     /**
-     * Toolbar elevation.
+     * Returns pixel value for the {@link #toolbar}.
      */
     private float toolbarElevation() {
         return convertDpToPx(getApplicationContext(), 4);
@@ -208,10 +145,10 @@ public class MainActivity extends AppCompatActivity implements
      * Attach {@link Observer} to set {@link #planCount} and {@link #restaurantCount}.
      */
     private void initialiseViewModels() {
-        mPlanViewModel = new ViewModelProvider(this).get(PlanViewModel.class);
-        mPlanViewModel.getCount().observe(this, integer -> planCount = integer);
-        mRestaurantViewModel = new ViewModelProvider(this).get(RestaurantViewModel.class);
-        mRestaurantViewModel.getCount().observe(this, integer -> restaurantCount = integer);
+        PlanViewModel pvm = new ViewModelProvider(this).get(PlanViewModel.class);
+        pvm.getCount().observe(this, integer -> planCount = integer);
+        RestaurantViewModel rvm = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        rvm.getCount().observe(this, integer -> restaurantCount = integer);
     }
 
 }
