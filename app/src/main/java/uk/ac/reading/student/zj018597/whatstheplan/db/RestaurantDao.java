@@ -29,5 +29,4 @@ public interface RestaurantDao {
 
     @Query("DELETE FROM restaurants")
     void deleteAll();
-
 }

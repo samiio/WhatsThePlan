@@ -42,5 +42,4 @@ public class PlanRepository {
     public void deleteAll() {
         AppDatabase.databaseWriteExecutor.execute(mPlanDao::deleteAll);
     }
-
 }

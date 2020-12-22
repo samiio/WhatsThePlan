@@ -199,10 +199,7 @@ public class PlansFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                if (planList.size() == 0) {
-                    mPlanViewModel.empty();
-                    adapter.notifyItemRemoved(0);
-                } else {
+                try {
                     int position = viewHolder.getAdapterPosition() - 1;
                     tempPlan = planList.get(position);
                     tempPosition = position;
@@ -213,6 +210,9 @@ public class PlansFragment extends Fragment {
                     adapter.notifyItemRemoved(position);
                     displaySnackBar();
                     setFabAnimLift(fabAdd);
+                } catch (Exception e){
+                    mPlanViewModel.empty();
+                    adapter.notifyItemRemoved(0);
                 }
             }
         };

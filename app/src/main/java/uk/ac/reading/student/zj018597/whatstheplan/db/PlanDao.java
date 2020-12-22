@@ -30,5 +30,4 @@ public interface PlanDao {
 
     @Query("DELETE FROM plans")
     void deleteAll();
-
 }

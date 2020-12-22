@@ -204,10 +204,7 @@ public class RestaurantsFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                if (restaurantList.size() == 0) {
-                    mRestaurantViewModel.empty();
-                    adapter.notifyItemRemoved(0);
-                } else {
+                try {
                     int position = viewHolder.getAdapterPosition() - 1;
                     tempRestaurant = restaurantList.get(position);
                     tempPosition = position;
@@ -218,6 +215,9 @@ public class RestaurantsFragment extends Fragment {
                     adapter.notifyItemRemoved(position);
                     displaySnackBar();
                     setFabAnimLift(fabAdd);
+                } catch (Exception e) {
+                    mRestaurantViewModel.empty();
+                    adapter.notifyItemRemoved(0);
                 }
             }
         };

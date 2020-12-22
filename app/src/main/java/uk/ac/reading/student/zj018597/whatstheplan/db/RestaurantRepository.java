@@ -42,5 +42,4 @@ public class RestaurantRepository {
     public void deleteAll() {
         AppDatabase.databaseWriteExecutor.execute(mRestaurantDao::deleteAll);
     }
-
 }
