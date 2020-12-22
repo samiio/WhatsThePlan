@@ -40,6 +40,8 @@ public class PlayFragment extends Fragment {
     private List<PlanEntity> planList;
     private List<RestaurantEntity> restaurantList;
 
+    private int planListSize, restaurantListSize;
+
     /*--------------------------------------------------------------------------------------------*/
     /*---------------------------------------- Lifecycle -----------------------------------------*/
     /*--------------------------------------------------------------------------------------------*/
@@ -53,14 +55,16 @@ public class PlayFragment extends Fragment {
         btnPlan = v.findViewById(R.id.btn_find_plan);
         btnPlan.setOnClickListener(new ButtonClickedPlan());
 
-        // TODO: FIX LAYOUT CONSTRAINTS
+        // TODO: fix SnackBar, clean code
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
         btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
         btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
 
         Bundle bundle = getArguments();
-        int planListSize = bundle.getInt(MainActivity.PLANS_LIST_SIZE);
-        int restaurantListSize = bundle.getInt(MainActivity.RESTAURANT_LIST_SIZE);
+        if (bundle != null) {
+            planListSize = bundle.getInt(MainActivity.PLANS_LIST_SIZE);
+            restaurantListSize = bundle.getInt(MainActivity.RESTAURANT_LIST_SIZE);
+        }
         btnPlan.setEnabled(planListSize != 0);
         btnRestaurant.setEnabled(restaurantListSize != 0);
         return v;
