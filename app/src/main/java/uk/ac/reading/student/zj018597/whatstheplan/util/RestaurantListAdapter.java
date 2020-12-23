@@ -15,8 +15,7 @@ import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.ui.RestaurantsFragment;
 
 /**
- * {@link RecyclerView.Adapter} that displays {@link List<RestaurantEntity>} in
- * the {@link RestaurantsFragment}.
+ * Displays {@link List<RestaurantEntity>} in the {@link RestaurantsFragment}.
  */
 public class RestaurantListAdapter extends
         RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
@@ -40,7 +39,8 @@ public class RestaurantListAdapter extends
         if (mRestaurants != null) {
             RestaurantEntity current = mRestaurants.get(position);
             holder.tvRestaurant.setText(current.getName());
-        } else {    // Covers the case of data not being ready yet.
+        } else {
+            // Covers the case of data not being ready yet.
             holder.tvRestaurant.setText(R.string.no_restaurant);
         }
     }
@@ -61,7 +61,7 @@ public class RestaurantListAdapter extends
         notifyDataSetChanged();
     }
 
-    class RestaurantViewHolder extends RecyclerView.ViewHolder {
+    static class RestaurantViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvRestaurant;
 
         private RestaurantViewHolder(View itemView) {

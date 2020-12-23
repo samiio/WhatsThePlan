@@ -2,19 +2,25 @@ package uk.ac.reading.student.zj018597.whatstheplan.util;
 
 import android.app.Activity;
 import android.content.Context;
-import com.google.android.material.snackbar.Snackbar;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 
-public class CustomSnackBar {
+/**
+ * A {@link Snackbar} with custom colours and placement.
+ */
+public class CustomSnackbar {
 
-    public static Snackbar setSnackBar(Activity activity, Context context, int viewId,
+    /**
+     * @return formatted Snackbar.
+     */
+    public static Snackbar setSnackbar(Activity activity, Context context, int viewId,
                                        String message) {
         final Snackbar snackbar = Snackbar.make(
                 activity.findViewById(viewId), message, Snackbar.LENGTH_LONG
@@ -35,5 +41,4 @@ public class CustomSnackBar {
         view.setLayoutParams(params);
         return snackbar;
     }
-
 }

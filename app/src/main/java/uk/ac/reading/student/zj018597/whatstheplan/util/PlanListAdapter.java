@@ -15,7 +15,7 @@ import uk.ac.reading.student.zj018597.whatstheplan.db.PlanEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.ui.PlansFragment;
 
 /**
- * {@link RecyclerView.Adapter} that displays {@link List<PlanEntity>} in the {@link PlansFragment}.
+ * Displays {@link List<PlanEntity>} in the {@link PlansFragment}.
  */
 public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.PlanViewHolder> {
 
@@ -38,7 +38,8 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.PlanVi
         if (mPlans != null) {
             PlanEntity current = mPlans.get(position);
             holder.tvPlan.setText(current.getName());
-        } else {    // Covers the case of data not being ready yet.
+        } else {
+            // Covers the case of data not being ready yet.
             holder.tvPlan.setText(R.string.no_plan);
         }
     }
@@ -60,14 +61,12 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.PlanVi
         notifyDataSetChanged();
     }
 
-    class PlanViewHolder extends RecyclerView.ViewHolder {
+    static class PlanViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvPlan;
 
         private PlanViewHolder(View itemView) {
             super(itemView);
             tvPlan = itemView.findViewById(R.id.tv_recycler_view);
         }
-
     }
-
 }

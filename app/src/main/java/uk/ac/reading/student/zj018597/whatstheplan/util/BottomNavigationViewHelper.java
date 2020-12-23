@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode;
 import uk.ac.reading.student.zj018597.whatstheplan.ui.MainActivity;
 
 /**
- * Helper class for the {@link BottomNavigationView} in {@link MainActivity}
+ * Helper class for the {@link BottomNavigationView} in {@link MainActivity}.
  */
 public class BottomNavigationViewHelper {
 
@@ -18,5 +18,4 @@ public class BottomNavigationViewHelper {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         menuView.setLabelVisibilityMode(LabelVisibilityMode.LABEL_VISIBILITY_LABELED);
     }
-
 }

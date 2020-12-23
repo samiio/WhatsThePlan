@@ -30,7 +30,7 @@ import java.util.Objects;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantEntity;
-import uk.ac.reading.student.zj018597.whatstheplan.util.CustomSnackBar;
+import uk.ac.reading.student.zj018597.whatstheplan.util.CustomSnackbar;
 import uk.ac.reading.student.zj018597.whatstheplan.util.RestaurantListAdapter;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.RestaurantViewModel;
 
@@ -205,12 +205,12 @@ public class RestaurantsFragment extends Fragment {
     }
 
     /**
-     * Customise {@link CustomSnackBar}.
+     * Customise {@link CustomSnackbar}.
      */
     private void displayUndoSnackBar() {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
-        Snackbar snackbar = CustomSnackBar.setSnackBar(
+        Snackbar snackbar = CustomSnackbar.setSnackbar(
                 activity, context, R.id.cl_root_fragment_restaurants, getString(R.string.undo)
         );
         // Set SnackBar action:

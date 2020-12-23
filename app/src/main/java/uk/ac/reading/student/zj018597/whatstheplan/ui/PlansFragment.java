@@ -29,7 +29,7 @@ import java.util.Objects;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.db.PlanEntity;
-import uk.ac.reading.student.zj018597.whatstheplan.util.CustomSnackBar;
+import uk.ac.reading.student.zj018597.whatstheplan.util.CustomSnackbar;
 import uk.ac.reading.student.zj018597.whatstheplan.util.PlanListAdapter;
 import uk.ac.reading.student.zj018597.whatstheplan.viewmodel.PlanViewModel;
 
@@ -201,12 +201,12 @@ public class PlansFragment extends Fragment {
     }
 
     /**
-     * Customise {@link CustomSnackBar}.
+     * Customise {@link CustomSnackbar}.
      */
     private void displayUndoSnackBar() {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
-        Snackbar snackbar = CustomSnackBar.setSnackBar(
+        Snackbar snackbar = CustomSnackbar.setSnackbar(
                 activity, context, R.id.cl_root_fragment_plans, getString(R.string.undo)
         );
 
