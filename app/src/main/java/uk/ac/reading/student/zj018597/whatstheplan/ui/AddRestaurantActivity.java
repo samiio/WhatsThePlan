@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import uk.ac.reading.student.zj018597.whatstheplan.R;
 import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantEntity;
@@ -27,6 +29,16 @@ public class AddRestaurantActivity extends AppCompatActivity {
         etName = findViewById(R.id.et_restaurant);
         Button button = findViewById(R.id.btn_add_restaurant);
         button.setOnClickListener(new AddNewRestaurantClick());
+
+        Toolbar toolbar = findViewById(R.id.tbr_add_restaurant_activity);
+        setToolbar(toolbar);
+    }
+
+    private void setToolbar(Toolbar tbr) {
+        TextView tvToolbarTitle = tbr.findViewById(R.id.tbr_main_title);
+        tvToolbarTitle.setText(getResources().getString(R.string.add_restaurant));
+        tbr.setTitle("");
+        setSupportActionBar(tbr);
     }
 
     /**

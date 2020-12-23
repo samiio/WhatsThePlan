@@ -8,11 +8,9 @@
     android:id="@+id/root_activity_add_restaurant"
     android:background="@android:color/white">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/tbr_add_activity_restaurant"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+    <include
+        android:id="@+id/tbr_add_restaurant_activity"
+        layout="@layout/app_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +27,7 @@
         android:padding="@dimen/pad_ten"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tbr_add_activity_restaurant"
+        app:layout_constraintTop_toBottomOf="@+id/tbr_add_restaurant_activity"
         tools:ignore="Autofill" />
 
     <Button

@@ -19,7 +19,8 @@
     <string name="restaurant_deleted">Restaurant deleted!</string>
     <string name="which_restaurant">Which Restaurant?</string>
     <string name="button">Button</string>
-
+    <string name="add_plan">Add Plan</string>
+    <string name="add_restaurant">Add Restaurant</string>
     <!-- PlayFragment strings -->
 
 </resources>
