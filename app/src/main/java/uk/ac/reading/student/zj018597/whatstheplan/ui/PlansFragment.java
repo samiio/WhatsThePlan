@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,15 +46,13 @@ public class PlansFragment extends Fragment {
     private final static String TAG = "PLANS_FRAGMENT";
 
     private FloatingActionButton fabAdd;
-
     private PlanListAdapter adapter;
     private List<PlanEntity> planList;
+    private PlanViewModel mPlanViewModel;
 
     //Holds a plan temporarily in case the user wants to undo
     private PlanEntity tempPlan;
     private int tempPosition;
-
-    private PlanViewModel mPlanViewModel;
 
     public static final int ADD_PLAN_ACTIVITY_REQUEST_CODE = 1;
 
@@ -66,9 +63,9 @@ public class PlansFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_plans, container, false);
-        setFabAdd(v);
+        fabAdd = v.findViewById(R.id.fab_add_plan);
+        fabAdd.setOnClickListener(new AddPlanButtonClick());
         setRecyclerView(v);
         return v;
     }
@@ -87,9 +84,6 @@ public class PlansFragment extends Fragment {
                 adapter.setPlans(plans);
             }
         });
-        if (planList != null) {
-            Log.i(TAG, "onActivityCreated: list size - " + planList.size());
-        }
     }
 
     @Override
@@ -112,26 +106,11 @@ public class PlansFragment extends Fragment {
     /*--------------------------------------------------------------------------------------------*/
 
     /**
-     * Required empty public constructor
+     * Required empty public constructor.
      */
     public PlansFragment() {}
 
     /**
-     * Initialise this fragment.
-     */
-    private void initFragment(Bundle savedInstanceState) {
-        FragmentManager manager = getChildFragmentManager();
-        if (savedInstanceState != null) {
-            plansFragment = manager.getFragment(savedInstanceState, TAG);
-        } else {
-            if (plansFragment == null) {
-                plansFragment = PlansFragment.newInstance();
-            }
-        }
-    }
-
-    /**
-     * Creates a new instance of the fragment
      * @return new {@link PlansFragment}
      */
     public static PlansFragment newInstance() {
@@ -139,26 +118,29 @@ public class PlansFragment extends Fragment {
     }
 
     /**
-     * Sets the FloatingActionButton and its onClickListener
+     * Create new instance if fragment does not exist.
      */
-    private void setFabAdd(View view) {
-        fabAdd = view.findViewById(R.id.fab_add_plan);
-        fabAdd.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), AddPlanActivity.class);
-            startActivityForResult(intent, ADD_PLAN_ACTIVITY_REQUEST_CODE);
-        });
+    private void initFragment(Bundle savedInstanceState) {
+        FragmentManager manager = getChildFragmentManager();
+        if (savedInstanceState != null){
+            plansFragment = manager.getFragment(savedInstanceState, TAG);
+        } else if (plansFragment == null){
+            plansFragment = PlansFragment.newInstance();
+        }
     }
 
     /**
-     * Plan list.
+     * Set {@link PlanEntity} list.
      */
     private void setListPlans(List<PlanEntity> plans) {
         planList = plans;
         adapter.setPlans(plans);
     }
 
+    /*--------------------------------------- RECYCLERVIEW ---------------------------------------*/
+
     /**
-     * The {@link RecyclerView} which will display a list of {@link PlanEntity}
+     * Customise {@link RecyclerView} to display {@link PlanEntity} list.
      */
     private void setRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.rv_fragment_plans);
@@ -208,7 +190,7 @@ public class PlansFragment extends Fragment {
                     //ensure View is consistent with underlying data
                     planList.remove(position);
                     adapter.notifyItemRemoved(position);
-                    displaySnackBar();
+                    displayUndoSnackBar();
                     setFabAnimLift(fabAdd);
                 } catch (Exception e){
                     mPlanViewModel.empty();
@@ -219,9 +201,9 @@ public class PlansFragment extends Fragment {
     }
 
     /**
-     * Displays undo SnackBar.
+     * Customise {@link CustomSnackBar}.
      */
-    private void displaySnackBar() {
+    private void displayUndoSnackBar() {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
         Snackbar snackbar = CustomSnackBar.setSnackBar(
@@ -251,4 +233,16 @@ public class PlansFragment extends Fragment {
         }).show();
     }
 
+    /*--------------------------------------- BUTTON CLICK ---------------------------------------*/
+
+    /**
+     * Launch {@link AddPlanActivity}.
+     */
+    private class AddPlanButtonClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), AddPlanActivity.class);
+            startActivityForResult(intent, ADD_PLAN_ACTIVITY_REQUEST_CODE);
+        }
+    }
 }

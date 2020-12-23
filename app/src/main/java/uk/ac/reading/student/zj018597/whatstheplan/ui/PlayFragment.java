@@ -2,7 +2,6 @@ package uk.ac.reading.student.zj018597.whatstheplan.ui;
 
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +34,9 @@ public class PlayFragment extends Fragment {
     private Fragment playFragment;
     private final static String TAG = "PLAY_FRAGMENT";
 
-    private Button btnPlan, btnRestaurant;
     private TextView tvPlan, tvRestaurant;
     private List<PlanEntity> planList;
     private List<RestaurantEntity> restaurantList;
-
     private int planListSize, restaurantListSize;
 
     /*--------------------------------------------------------------------------------------------*/
@@ -49,15 +46,16 @@ public class PlayFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_play, container, false);
         tvPlan = v.findViewById(R.id.tv_plan);
-        btnPlan = v.findViewById(R.id.btn_find_plan);
-        btnPlan.setOnClickListener(new ButtonClickedPlan());
         tvRestaurant = v.findViewById(R.id.tv_restaurant);
-        btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
-        btnRestaurant.setOnClickListener(new ButtonClickedRestaurant());
+        Button btnPlan = v.findViewById(R.id.btn_find_plan);
+        Button btnRestaurant = v.findViewById(R.id.btn_find_restaurant);
 
+        btnPlan.setOnClickListener(new PlanButtonClicked());
+        btnRestaurant.setOnClickListener(new RestaurantButtonClicked());
+
+        // Get size of list from MainActivity to enable/disable buttons
         Bundle bundle = getArguments();
         if (bundle != null) {
             planListSize = bundle.getInt(MainActivity.PLANS_LIST_SIZE);
@@ -73,14 +71,11 @@ public class PlayFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         initFragment(savedInstanceState);
 
-        PlanViewModel mPlanViewModel = new ViewModelProvider(
-                this).get(PlanViewModel.class);
-        mPlanViewModel.getAllPlans().observe(getViewLifecycleOwner(), this::setListPlans);
-
-        RestaurantViewModel mRestaurantViewModel = new ViewModelProvider(
-                this).get(RestaurantViewModel.class);
-        mRestaurantViewModel.getAllRestaurants().observe(
-                getViewLifecycleOwner(), this::setListRestaurants);
+        // ViewModels to observe lists.
+        PlanViewModel pvm = new ViewModelProvider(this).get(PlanViewModel.class);
+        RestaurantViewModel rvm = new ViewModelProvider(this).get(RestaurantViewModel.class);
+        pvm.getAllPlans().observe(getViewLifecycleOwner(), this::setListPlans);
+        rvm.getAllRestaurants().observe(getViewLifecycleOwner(), this::setListRestaurants);
     }
 
     /*--------------------------------------------------------------------------------------------*/
@@ -93,7 +88,6 @@ public class PlayFragment extends Fragment {
     public PlayFragment() {}
 
     /**
-     * Creates a new instance of the fragment
      * @return new {@link PlayFragment}
      */
     public static PlayFragment newInstance() {
@@ -101,21 +95,14 @@ public class PlayFragment extends Fragment {
     }
 
     /**
-     * Initialise this fragment.
+     * Create new instance if fragment does not exist.
      */
     private void initFragment(Bundle savedInstanceState) {
         FragmentManager manager = getChildFragmentManager();
-
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null){
             playFragment = manager.getFragment(savedInstanceState, TAG);
-
-        } else {
-            if (playFragment != null) { //Do nothing
-                Log.i(TAG, ": fragment exists, do nothing");
-
-            } else { //Create new instance
-                playFragment = PlayFragment.newInstance();
-            }
+        } else if (playFragment == null){
+            playFragment = PlayFragment.newInstance();
         }
     }
 
@@ -136,13 +123,9 @@ public class PlayFragment extends Fragment {
     /*-------------------------------------- BUTTON CLICKS ---------------------------------------*/
 
     /**
-     * {@link View.OnClickListener} for {@link #btnPlan}.
+     * Display random plan to user.
      */
-    private class ButtonClickedPlan implements View.OnClickListener {
-
-        /**
-         * Displays random item to the user.
-         */
+    private class PlanButtonClicked implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             tvPlan.setText(getRandomItem(planList));
@@ -150,13 +133,9 @@ public class PlayFragment extends Fragment {
     }
 
     /**
-     * {@link View.OnClickListener} for {@link #btnRestaurant}.
+     * Display random restaurant to user.
      */
-    private class ButtonClickedRestaurant implements View.OnClickListener {
-
-        /**
-         * Displays random item to the user.
-         */
+    private class RestaurantButtonClicked implements View.OnClickListener {
         @Override
         public void onClick(View view) {
             tvRestaurant.setText(getRandomItem(restaurantList));
@@ -164,8 +143,8 @@ public class PlayFragment extends Fragment {
     }
 
     /**
-     * Called when {@link Button} is clicked.
      * @param anEntityList list of objects which extend {@link AnEntity}.
+     * @return random item from list
      */
     private String getRandomItem(List<? extends AnEntity> anEntityList) {
         Random random = new Random();

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,15 +47,13 @@ public class RestaurantsFragment extends Fragment {
     private final static String TAG = "RESTAURANTS_FRAGMENT";
 
     private FloatingActionButton fabAdd;
-
     private RestaurantListAdapter adapter;
     private List<RestaurantEntity> restaurantList;
+    private RestaurantViewModel mRestaurantViewModel;
 
     //Holds a restaurant temporarily in case the user wants to undo
     private RestaurantEntity tempRestaurant;
     private int tempPosition;
-
-    private RestaurantViewModel mRestaurantViewModel;
 
     public static final int ADD_RESTAURANT_ACTIVITY_REQUEST_CODE = 2;
 
@@ -69,7 +66,8 @@ public class RestaurantsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_restaurants, container, false);
-        setFabAdd(v);
+        fabAdd = v.findViewById(R.id.fab_add_restaurant);
+        fabAdd.setOnClickListener(new AddPlanButtonClick());
         setRecyclerView(v);
         return v;
     }
@@ -112,31 +110,11 @@ public class RestaurantsFragment extends Fragment {
     /*--------------------------------------------------------------------------------------------*/
 
     /**
-     * Required empty public constructor
+     * Required empty public constructor.
      */
     public RestaurantsFragment() {}
 
     /**
-     * Initialise this fragment.
-     */
-    private void initFragment(Bundle savedInstanceState) {
-        FragmentManager manager = getChildFragmentManager();
-
-        if (savedInstanceState != null){
-            restaurantsFragment = manager.getFragment(savedInstanceState, TAG);
-        } else {
-            if (restaurantsFragment != null) { //Do nothing
-                Log.i(TAG, ": fragment exists, do nothing");
-
-            } else { //Create new instance
-                restaurantsFragment = RestaurantsFragment.newInstance();
-
-            }
-        }
-    }
-
-    /**
-     * Creates a new instance of the fragment
      * @return new {@link RestaurantsFragment}
      */
     public static RestaurantsFragment newInstance() {
@@ -144,26 +122,29 @@ public class RestaurantsFragment extends Fragment {
     }
 
     /**
-     * Sets the FloatingActionButton and its onClickListener
+     * Create new instance if fragment does not exist.
      */
-    private void setFabAdd(View v) {
-        fabAdd = v.findViewById(R.id.fab_add_restaurant);
-        fabAdd.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), AddRestaurantActivity.class);
-            startActivityForResult(intent, ADD_RESTAURANT_ACTIVITY_REQUEST_CODE);
-        });
+    private void initFragment(Bundle savedInstanceState) {
+        FragmentManager manager = getChildFragmentManager();
+        if (savedInstanceState != null){
+            restaurantsFragment = manager.getFragment(savedInstanceState, TAG);
+        } else if (restaurantsFragment == null){
+            restaurantsFragment = RestaurantsFragment.newInstance();
+        }
     }
 
     /**
-     * Plan list.
+     * Set {@link RestaurantEntity} list.
      */
     private void setListRestaurants(List<RestaurantEntity> restaurants) {
         restaurantList = restaurants;
         adapter.setRestaurants(restaurants);
     }
 
+    /*--------------------------------------- RECYCLERVIEW ---------------------------------------*/
+
     /**
-     * The {@link RecyclerView} which will display a list of {@link RestaurantEntity}
+     * Customise {@link RecyclerView} to display {@link RestaurantEntity} list.
      */
     private void setRecyclerView(View v) {
         RecyclerView recyclerView = v.findViewById(R.id.rv_fragment_restaurants);
@@ -213,7 +194,7 @@ public class RestaurantsFragment extends Fragment {
                     //ensure View is consistent with underlying data
                     restaurantList.remove(position);
                     adapter.notifyItemRemoved(position);
-                    displaySnackBar();
+                    displayUndoSnackBar();
                     setFabAnimLift(fabAdd);
                 } catch (Exception e) {
                     mRestaurantViewModel.empty();
@@ -224,9 +205,9 @@ public class RestaurantsFragment extends Fragment {
     }
 
     /**
-     * Displays undo SnackBar.
+     * Customise {@link CustomSnackBar}.
      */
-    private void displaySnackBar() {
+    private void displayUndoSnackBar() {
         Activity activity = getActivity();
         Context context = Objects.requireNonNull(activity).getApplicationContext();
         Snackbar snackbar = CustomSnackBar.setSnackBar(
@@ -256,4 +237,16 @@ public class RestaurantsFragment extends Fragment {
         }).show();
     }
 
+    /*--------------------------------------- BUTTON CLICK ---------------------------------------*/
+
+    /**
+     * Launch {@link AddRestaurantActivity}.
+     */
+    private class AddPlanButtonClick implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), AddRestaurantActivity.class);
+            startActivityForResult(intent, ADD_RESTAURANT_ACTIVITY_REQUEST_CODE);
+        }
+    }
 }

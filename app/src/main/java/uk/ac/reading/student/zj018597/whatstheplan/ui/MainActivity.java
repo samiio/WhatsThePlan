@@ -3,6 +3,7 @@ package uk.ac.reading.student.zj018597.whatstheplan.ui;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements
             tag = RESTAURANTS_TAG;
             tvToolbarTitle.setText(getResources().getString(R.string.title_restaurants));
         } else {
+            // Send LiveData count to PlayFragment
             Bundle bundle = new Bundle();
             bundle.putInt(PLANS_LIST_SIZE, planCount);
             bundle.putInt(RESTAURANT_LIST_SIZE, restaurantCount);
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements
     /*--------------------------------------------------------------------------------------------*/
 
     /**
-     * Fragments that will be displayed on this activity.
+     * Fragments that will be displayed on this Activity.
      */
     private void initialiseFragments() {
         plansFragment = new PlansFragment();
@@ -98,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Sets a fragments on this Activity's FrameLayout.
+     * Sets a fragments on the {@link FrameLayout}.
      */
     private boolean setFragment(Fragment fragment, String tag) {
         FragmentManager manager = getSupportFragmentManager();
@@ -142,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /**
-     * Attach {@link Observer} to set {@link #planCount} and {@link #restaurantCount}.
+     * Attach {@link Observer} to get {@link #planCount} and {@link #restaurantCount}.
      */
     private void initialiseViewModels() {
         PlanViewModel pvm = new ViewModelProvider(this).get(PlanViewModel.class);

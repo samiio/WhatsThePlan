@@ -28,6 +28,9 @@ public class AddPlanActivity extends AppCompatActivity {
         button.setOnClickListener(new AddNewPlanClick());
     }
 
+    /**
+     * Pass new {@link PlanEntity} name via intent and close Activity.
+     */
     private class AddNewPlanClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {

@@ -29,6 +29,9 @@ public class AddRestaurantActivity extends AppCompatActivity {
         button.setOnClickListener(new AddNewRestaurantClick());
     }
 
+    /**
+     * Pass new {@link RestaurantEntity} name via intent and close Activity.
+     */
     private class AddNewRestaurantClick implements View.OnClickListener {
         @Override
         public void onClick(View v) {
