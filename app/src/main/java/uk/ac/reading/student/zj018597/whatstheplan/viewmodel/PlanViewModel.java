@@ -11,13 +11,13 @@ import uk.ac.reading.student.zj018597.whatstheplan.db.PlanEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.db.PlanRepository;
 
 /**
- * The {@link ViewModel} role is to provide data to the UI and survive configuration changes.
- * This class acts as a communication center between the Repository and the UI.
+ * Provides data from {@link PlanEntity} table to the UI and survives configuration changes.
+ * Acts as a communication center between {@link PlanRepository} and the UI.
  */
 public class PlanViewModel extends AndroidViewModel {
 
-    private PlanRepository mRepository;
-    private LiveData<List<PlanEntity>> mAllPlans;
+    private final PlanRepository mRepository;
+    private final LiveData<List<PlanEntity>> mAllPlans;
 
     public PlanViewModel(Application application) {
         super(application);

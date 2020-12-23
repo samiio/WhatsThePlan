@@ -11,13 +11,13 @@ import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantEntity;
 import uk.ac.reading.student.zj018597.whatstheplan.db.RestaurantRepository;
 
 /**
- * The {@link ViewModel} role is to provide data to the UI and survive configuration changes.
- * This class acts as a communication center between the Repository and the UI.
+ * Provides data from {@link RestaurantEntity} table to the UI and survives configuration changes.
+ * Acts as a communication center between {@link RestaurantRepository} and the UI.
  */
 public class RestaurantViewModel extends AndroidViewModel {
 
-    private RestaurantRepository mRepository;
-    private LiveData<List<RestaurantEntity>> mAllRestaurants;
+    private final RestaurantRepository mRepository;
+    private final LiveData<List<RestaurantEntity>> mAllRestaurants;
 
     public RestaurantViewModel(Application application) {
         super(application);
@@ -44,5 +44,4 @@ public class RestaurantViewModel extends AndroidViewModel {
     public void empty() {
         mRepository.deleteAll();
     }
-
 }
